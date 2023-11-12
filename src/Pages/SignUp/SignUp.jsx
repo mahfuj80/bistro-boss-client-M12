@@ -1,27 +1,30 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
-  loadCaptchaEnginge,
   LoadCanvasTemplate,
+  loadCaptchaEnginge,
   validateCaptcha,
 } from 'react-simple-captcha';
 import { AuthContext } from '../../Providers/AuthProvider';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const SignUp = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
 
-  const { signIn } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
-  const handleLogin = (e) => {
+
+  const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
+    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    signIn(email, password)
+    console.log(name);
+    createUser(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
@@ -44,7 +47,7 @@ const Login = () => {
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col md:flex-row">
         <div className="text-center md:w-1/2 lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
+          <h1 className="text-5xl font-bold">Sign Up Now!</h1>
           <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
@@ -52,7 +55,19 @@ const Login = () => {
           </p>
         </div>
         <div className="card md:w-1/2 max-w-sm shadow-2xl bg-base-100">
-          <form onSubmit={handleLogin} className="card-body">
+          <form onSubmit={handleSignUp} className="card-body">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Name"
+                name="name"
+                className="input input-bordered"
+                required
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -76,11 +91,6 @@ const Login = () => {
                 className="input input-bordered"
                 required
               />
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
             </div>
             <div className="form-control">
               <label className="label">
@@ -108,13 +118,13 @@ const Login = () => {
                 disabled={disabled}
                 className="btn btn-primary"
                 type="submit"
-                value="Login"
+                value="Sign Up"
               />
             </div>
           </form>
           <p className="text-center pb-4">
-            <small>New Here?</small>
-            <Link to={'/signup'}>Create an Account</Link>
+            <small>Already Have an Account?</small>
+            <Link to={'/login'}>Login Here.</Link>
           </p>
         </div>
       </div>
@@ -122,4 +132,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
