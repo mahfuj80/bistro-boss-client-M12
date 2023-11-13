@@ -5,18 +5,24 @@ import {
   validateCaptcha,
 } from 'react-simple-captcha';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
-
-  const { signIn } = useContext(AuthContext);
+  const { signIn, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   useEffect(() => {
     loadCaptchaEnginge(6);
-  }, []);
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [from, navigate, user]);
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -32,6 +38,7 @@ const Login = () => {
           text: 'You successfully logged in',
           icon: 'success',
         });
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error);
