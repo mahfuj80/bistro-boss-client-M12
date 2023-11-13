@@ -24,9 +24,13 @@ const NavBar = () => {
       <li>
         <NavLink to={'/order/salad'}>Order</NavLink>
       </li>
+      <li>
+        <NavLink to={'/secret'}>Secret</NavLink>
+      </li>
 
       {user ? (
         <>
+          <span>{user?.displayName}</span>
           <button onClick={handleLogOut} className="btn btn-ghost">
             Logout
           </button>

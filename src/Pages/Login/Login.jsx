@@ -43,7 +43,7 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         Swal.fire({
-          title: 'Good job!',
+          title: 'Error!',
           text: 'Something went wrong!!!',
           icon: 'error',
         });

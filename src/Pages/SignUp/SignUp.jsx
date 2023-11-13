@@ -1,48 +1,78 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    //     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password)
       .then((result) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
+        const loggedUser = result && result.user; // Check if result and result.user are defined
+
+        if (loggedUser) {
+          console.log('Logged user:', loggedUser);
+          updateUserProfile(data.name, data.photoURL)
+            .then(() => {
+              console.log('User profile info updated');
+              reset();
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'User Successfully Created',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate('/');
+            })
+            .catch((error) => {
+              console.error('Error updating user profile:', error);
+              Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: error,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            });
+        } else {
+          console.error('User is undefined in the result object');
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Error: User is undefined',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error creating user:', error);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: error,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
-  console.log(watch('password'));
+  //   console.log(watch('password'));
 
-  //     e.preventDefault();
-  //     const form = e.target;
-  //     const name = form.name.value;
-  //     const email = form.email.value;
-  //     const password = form.password.value;
-  //     console.log(name);
-  //     createUser(email, password)
-  //       .then((result) => {
-  //         const user = result.user;
-  //         console.log(user);
-  //       })
-  //       .catch((error) => {
-  //         alert(error);
-  //       });
-  //   };
   return (
     <>
       <Helmet>
@@ -68,11 +98,24 @@ const SignUp = () => {
                   type="text"
                   placeholder="Name"
                   {...register('name', { required: true })}
-                  name="name"
                   className="input input-bordered"
                 />
                 {errors.name && (
                   <span className="text-red-600">Name is required</span>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URL</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Photo URL"
+                  {...register('photoURL', { required: true })}
+                  className="input input-bordered"
+                />
+                {errors.photoURL && (
+                  <span className="text-red-600">Photo URL is required</span>
                 )}
               </div>
               <div className="form-control">
@@ -83,7 +126,6 @@ const SignUp = () => {
                   type="email"
                   placeholder="email"
                   {...register('email', { required: true })}
-                  name="email"
                   className="input input-bordered"
                 />
                 {errors.email && (
@@ -102,8 +144,7 @@ const SignUp = () => {
                     minLength: 8,
                     pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.[0-9])(?=.*[a-z])/,
                   })}
-                  placeholder="password"
-                  name="password"
+                  placeholder="Password"
                   className="input input-bordered"
                 />
                 {errors.password?.type === 'required' && (
