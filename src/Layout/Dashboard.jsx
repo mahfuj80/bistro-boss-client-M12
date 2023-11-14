@@ -2,6 +2,7 @@ import {
   FaCalendar,
   FaHome,
   FaList,
+  FaMagic,
   FaShoppingCart,
   FaStar,
 } from 'react-icons/fa';
@@ -37,9 +38,16 @@ const Dashboard = () => {
               {<FaList></FaList>}My Bookings
             </NavLink>
           </li>
+          <div className="divider"></div>
+          <li>
+            <NavLink to={'/'}>{<FaHome></FaHome>}Home</NavLink>
+          </li>
+          <li>
+            <NavLink to={'/order'}>{<FaMagic></FaMagic>}Menu</NavLink>
+          </li>
         </ul>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 p-8">
         <Outlet></Outlet>
       </div>
     </div>
