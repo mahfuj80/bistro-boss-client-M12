@@ -1,10 +1,12 @@
 import {
   FaCalendar,
+  FaEnvelope,
   FaHome,
   FaList,
   FaMagic,
   FaShoppingCart,
   FaStar,
+  FaVoicemail,
 } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router-dom';
 import useCart from '../hooks/useCart';
@@ -40,12 +42,16 @@ const Dashboard = () => {
               {<FaList></FaList>}My Bookings
             </NavLink>
           </li>
+          {/* shared nav links */}
           <div className="divider"></div>
           <li>
             <NavLink to={'/'}>{<FaHome></FaHome>}Home</NavLink>
           </li>
           <li>
             <NavLink to={'/order'}>{<FaMagic></FaMagic>}Menu</NavLink>
+          </li>
+          <li>
+            <NavLink to={'/order'}>{<FaEnvelope></FaEnvelope>}Contact</NavLink>
           </li>
         </ul>
       </div>

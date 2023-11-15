@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
+import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 
 const SignUp = () => {
   const axiosPublic = useAxiosPublic();
@@ -185,6 +186,7 @@ const SignUp = () => {
                 />
               </div>
             </form>
+            <SocialLogin></SocialLogin>
             <p className="text-center pb-4">
               <small>Already Have an Account?</small>
               <Link to={'/login'}>Login Here.</Link>
