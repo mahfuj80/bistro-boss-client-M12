@@ -4,8 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -18,7 +20,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result && result.user; // Check if result and result.user are defined
@@ -27,16 +28,25 @@ const SignUp = () => {
           console.log('Logged user:', loggedUser);
           updateUserProfile(data.name, data.photoURL)
             .then(() => {
-              console.log('User profile info updated');
-              reset();
-              Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'User Successfully Created',
-                showConfirmButton: false,
-                timer: 1500,
+              // create user entry in the database
+              const userInfo = {
+                name: data?.name,
+                email: data?.email,
+              };
+              axiosPublic.post('/users', userInfo).then((res) => {
+                if (res?.data?.insertedId) {
+                  console.log('user added to the database');
+                  reset();
+                  Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'User Successfully Created',
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  navigate('/');
+                }
               });
-              navigate('/');
             })
             .catch((error) => {
               console.error('Error updating user profile:', error);
