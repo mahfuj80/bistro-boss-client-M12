@@ -1,11 +1,33 @@
 import { FaUtensils } from 'react-icons/fa';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import { useForm } from 'react-hook-form';
+import useAxiosPublic from '../../../hooks/useAxiosPublic';
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddItems = () => {
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const axiosPublic = useAxiosPublic();
+  const onSubmit = async (data) => {
+    try {
+      // Create a FormData object to handle file uploads
+      const formData = new FormData();
+      formData.append('image', data.image[0]);
+      console.log(formData);
+
+      // Use axios to post the FormData to the image hosting API
+      const res = await axiosPublic.post(image_hosting_api, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Log the response data from the image hosting API
+      console.log(res.data);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
   return (
     <div>
@@ -33,10 +55,11 @@ const AddItems = () => {
                 <span className="label-text">Category*</span>
               </label>
               <select
+                defaultValue={'default'}
                 {...register('category', { required: true })}
                 className="select select-bordered w-full"
               >
-                <option disabled selected>
+                <option disabled value={'default'}>
                   Select a Category
                 </option>
                 <option value="salad">Salad</option>
