@@ -39,11 +39,11 @@ const UpdateItem = () => {
           image: res.data.data.display_url,
         };
         // now send menuItem to the menu collection
-        const menuRes = await axiosSecure.patch(`/menu${_id}`, menuItem);
+        const menuRes = await axiosSecure.patch(`/menu/${_id}`, menuItem);
         console.log(menuRes.data);
-        if (menuRes?.data?.insertedId) {
+        if (menuRes?.data?.modifiedCount > 0) {
           // show success popup/modal
-          reset();
+          //   reset();
           Swal.fire({
             position: 'top-end',
             icon: 'success',
