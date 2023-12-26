@@ -112,9 +112,7 @@ export const router = createBrowserRouter([
           </AdminRoutes>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://bistro-boss-server-zeta-dusky.vercel.app/menu/${params?.id}`
-          ),
+          fetch(`http://localhost:5000/menu/${params?.id}`),
       },
       {
         path: 'users',

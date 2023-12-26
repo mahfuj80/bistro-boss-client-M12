@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
-import Cover from '../../Shared/Cover/Cover';
-import MenuItem from '../../Shared/MenuItem/MenuItem';
+import MenuItem from '../../../Components/Shared/MenuItem/MenuItem';
+import Cover from '../../../Components/Shared/Cover/Cover';
 
 const MenuCategory = ({ items, title, img }) => {
   return (

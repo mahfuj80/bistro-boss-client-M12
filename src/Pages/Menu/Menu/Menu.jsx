@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import Cover from '../../Shared/Cover/Cover';
 import menuImg from '../../../assets/menu/banner3.jpg';
 import dessertImg from '../../../assets/menu/dessert-bg.jpeg';
 import saladImg from '../../../assets/menu/salad-bg.jpg';
@@ -8,6 +7,7 @@ import pizzaImg from '../../../assets/menu/pizza-bg.jpg';
 import useMenu from '../../../hooks/useMenu';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import MenuCategory from '../MenuCategory/MenuCategory';
+import Cover from '../../../Components/Shared/Cover/Cover';
 
 const Menu = () => {
   const [menu] = useMenu();

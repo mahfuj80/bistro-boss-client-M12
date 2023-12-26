@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import orderCoverImg from '../../../assets/order/order.jpg';
-import Cover from '../../Shared/Cover/Cover';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import useMenu from '../../../hooks/useMenu';
 import OrderTab from '../OrderTab/OrderTab';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import Cover from '../../../Components/Shared/Cover/Cover';
 
 const Order = () => {
   const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks'];
